@@ -1,11 +1,12 @@
 require('telescope').setup {
     defaults = {
         -- layout_strategy = 'bottom_pane',
+        layout_strategy = 'flex',
         layout_config = {
             height = 0.4,
         },
         results_title = false,
-        preview_title = false,
+        dynamic_preview_title = true,
         border = {
             -- prompt = { 1, 1, 1, 1 },
             -- results = { 1, 1, 1, 1 },
@@ -15,7 +16,8 @@ require('telescope').setup {
             -- prompt = { "─", " ", "─", " ", "─", "─", "─", "─" },
             prompt = { "╌", " ", "╌", " ", "╌", "╌", "╌", "╌" },
             results = { "", "", "", "", "", "", "", "" },
-            preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+            -- preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+            preview = { " ", " ", " ", " ", " ", " ", " ", " " },
         },
         sorting_strategy = "ascending",
     },
