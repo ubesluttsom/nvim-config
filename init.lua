@@ -33,20 +33,18 @@ lazy.setup({
         tag = '0.1.8',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
-    {
+    -- Only install fzf-native if not on Windows
+    vim.fn.has('win32') == 0 and {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make'
-    },
+    } or nil,
     {
         "nvim-telescope/telescope-file-browser.nvim",
         dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
     },
     { "nvim-telescope/telescope-ui-select.nvim" },
-    { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+    { "nvim-treesitter/nvim-treesitter",        build = ":TSUpdate" },
     { "nvim-treesitter/nvim-treesitter-context" },
-    { "lukas-reineke/lsp-format.nvim" },
-    { "mfussenegger/nvim-lint" },
-    { "mhartington/formatter.nvim" },
     { "neovim/nvim-lspconfig" },
     { "tpope/vim-commentary" },
     { "tpope/vim-fugitive" },
@@ -64,8 +62,9 @@ lazy.setup({
         },
     },
     { "williamboman/mason-lspconfig.nvim" },
-    { "kaarmu/typst.vim",                 ft = "typst", lazy = false },
-    { "folke/twilight.nvim",
+    -- { "kaarmu/typst.vim",                 ft = "typst", lazy = false },
+    {
+        "folke/twilight.nvim",
         opts = {
             {
                 dimming = {
@@ -73,10 +72,10 @@ lazy.setup({
                     -- we try to get the foreground from the highlight groups or fallback color
                     color = { "Normal", "#ffffff" },
                     term_bg = "#000000", -- if guibg=NONE, this will be used to calculate text color
-                    inactive = false, -- when true, other windows will be fully dimmed (unless they contain the same buffer)
+                    inactive = false,    -- when true, other windows will be fully dimmed (unless they contain the same buffer)
                 },
-                context = 10, -- amount of lines we will try to show around the current line
-                treesitter = true, -- use treesitter when available for the filetype
+                context = 10,            -- amount of lines we will try to show around the current line
+                treesitter = true,       -- use treesitter when available for the filetype
                 -- treesitter is used to automatically expand the visible text,
                 -- but you can further control the types of nodes that should always be fully expanded
                 expand = { -- for treesitter, we we always try to expand to the top-most ancestor with these types
@@ -154,12 +153,12 @@ vim.api.nvim_create_user_command('Scratch', open_scratch_buffer, {})
 vim.keymap.set('n', '<space>s', open_scratch_buffer)
 
 -- Configure netrw module
-vim.g.netrw_liststyle = 0       -- Display one entry per line (and no tree)
-vim.g.netrw_altv = 1            -- Split to the right
-vim.g.netrw_winsize = 25        -- Width of explorer window
-vim.g.netrw_preview = 1         -- Preview window in vertical split
-vim.g.netrw_alto = 0            -- Preview window in top split
-vim.g.netrw_fastbrowse = 0      -- Always obtain fresh directory listings
+vim.g.netrw_liststyle = 0  -- Display one entry per line (and no tree)
+vim.g.netrw_altv = 1       -- Split to the right
+vim.g.netrw_winsize = 25   -- Width of explorer window
+vim.g.netrw_preview = 1    -- Preview window in vertical split
+vim.g.netrw_alto = 0       -- Preview window in top split
+vim.g.netrw_fastbrowse = 0 -- Always obtain fresh directory listings
 
 
 ----------------
@@ -190,13 +189,13 @@ end
 
 -- Configure listchars to display various invisible characters
 vim.opt.listchars = {
-    eol = '¬',              -- Character to show at the end of each line
-    tab = '⇥ ',             -- Characters to show for a tab
+    eol = '¬', -- Character to show at the end of each line
+    tab = '⇥ ', -- Characters to show for a tab
     -- space = '·',            -- Character to show for a space
-    trail = '᰽',            -- Character to show for trailing spaces
-    extends = '┊',          -- Character to show when a line continues beyond the screen
-    precedes = '┊',         -- Character to show when a line continues before the screen
-    nbsp = '␣',             -- Character to show for non-breaking spaces
+    trail = '᰽', -- Character to show for trailing spaces
+    extends = '┊', -- Character to show when a line continues beyond the screen
+    precedes = '┊', -- Character to show when a line continues before the screen
+    nbsp = '␣', -- Character to show for non-breaking spaces
     -- lead = '·',             -- Character to show for leading spaces
     leadmultispace = generate_leadmultispace_pattern(indent)
 }
@@ -221,6 +220,5 @@ package.path = vim.fn.stdpath('config') .. "/lua/?.lua;" .. package.path
 
 require('config.statusline')
 require('config.lsp')
-require('config.formatter')
 require('config.treesitter')
 require('config.telescope')

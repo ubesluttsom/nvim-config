@@ -8,7 +8,15 @@ require("mason-lspconfig").setup_handlers {
     -- and will be called for each installed server that doesn't have
     -- a dedicated handler.
     function(server_name) -- default handler (optional)
-        require("lspconfig")[server_name].setup {}
+        require("lspconfig")[server_name].setup {
+            -- Enable formatting capability for all servers that support it
+            on_attach = function(client, bufnr)
+                -- Enable formatting for this buffer if the server supports it
+                if client.supports_method("textDocument/formatting") then
+                    vim.bo[bufnr].formatexpr = "v:lua.vim.lsp.formatexpr()"
+                end
+            end,
+        }
     end,
 }
 
@@ -56,21 +64,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local _border = "single"
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-        vim.lsp.handlers.hover, {
-                border = _border
-                }
+    vim.lsp.handlers.hover, {
+        border = _border
+    }
 )
 
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-        vim.lsp.handlers.signature_help, {
-                border = _border
-                }
+    vim.lsp.handlers.signature_help, {
+        border = _border
+    }
 )
 
 vim.diagnostic.config {
-        float = { border = _border }
+    float = { border = _border }
 }
 
 require('lspconfig.ui.windows').default_options = {
-        border = _border
+    border = _border
 }

@@ -42,9 +42,11 @@ vim.keymap.set("n", "-", function()
     require("telescope").extensions.file_browser.file_browser()
 end)
 
-require('telescope').load_extension('fzf')          -- Faster fuzzy
 require("telescope").load_extension('file_browser') -- File browser
-require("telescope").load_extension('ui-select')    -- Better UI picker globally in Neovim
+require("telescope").load_extension('ui-select')    -- Better UI picker globally
+if vim.fn.has('win32') == 0 then
+    require('telescope').load_extension('fzf')      -- Faster Fzf (requires `make`)
+end
 
 -- Custom picker for visible files
 local function list_visible_files()
