@@ -1,17 +1,21 @@
 require('telescope').setup {
     defaults = {
-        layout_strategy = 'bottom_pane',
+        -- layout_strategy = 'bottom_pane',
         layout_config = {
             height = 0.4,
         },
         results_title = false,
         preview_title = false,
         border = {
+            -- prompt = { 1, 1, 1, 1 },
+            -- results = { 1, 1, 1, 1 },
+            -- preview = { 1, 1, 1, 1 },
         },
         borderchars = {
-            prompt = { "─", " ", "─", " ", "─", "─", "─", "─" },
+            -- prompt = { "─", " ", "─", " ", "─", "─", "─", "─" },
+            prompt = { "╌", " ", "╌", " ", "╌", "╌", "╌", "╌" },
             results = { "", "", "", "", "", "", "", "" },
-            preview = { "─", "│", "─", "│", "┌", "┐", "┘", "┖" },
+            preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
         },
         sorting_strategy = "ascending",
     },
@@ -40,6 +44,7 @@ end)
 
 require('telescope').load_extension('fzf')          -- Faster fuzzy
 require("telescope").load_extension('file_browser') -- File browser
+require("telescope").load_extension('ui-select')    -- Better UI picker globally in Neovim
 
 -- Custom picker for visible files
 local function list_visible_files()
